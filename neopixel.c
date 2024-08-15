@@ -31,7 +31,12 @@ void init_seesaw_device(struct pixelData_t* deviceData){
     if(FSP_SUCCESS != status){
         printf("MASTER_SlaveAddressSet() failed with status %d\n", status);
     }
-
+    
+    status = R_IIC_MASTER_CallbackSet(&g_i2c_master0_ctrl, i2c_pixel_callback, NULL, NULL);
+    if(FSP_SUCCESS != status){
+        printf("MASTER_CallbackSet() failed with status %d\n", status);
+    }
+    
     // Reset the I2C bus
     // write to 0x60 ack data: 0x00 0x7F 0xFF
     i2c_tx_buffer[HEADER_BASE_REG] = 0x00;
